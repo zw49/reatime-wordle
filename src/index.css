@@ -4,21 +4,46 @@
 :root {
   /* Use the imported family and fall back to generic monospace */
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Menlo',
-               'Consolas', 'Liberation Mono', 'Courier New', monospace;
+    'Consolas', 'Liberation Mono', 'Courier New', monospace;
 }
 
 @theme {
   /* Tokyo Night Palette */
-  --color-bg: #001f3f;          /* Midnight Blue - main background */
-  --color-bg-soft: #002a5c;     /* Slightly lighter background */
-  --color-bg-hard: #000f2f;     /* Darker background */
-  --color-fg: #959cbd;          /* Foreground base */
-  --color-fg-soft: #7982a9;     /* Softer foreground */
-  --color-red: #ff6b6b;         /* Neon Pink */
-  --color-red-bright: #ff92a1;  /* Sakura Blossom (light pink) */
-  --color-yellow: #f7d794;      /* City Lights Yellow */
-  --color-green: #2ecc71;       /* Zen Garden Green */
-  --color-blue: #3d59a1;        /* Panel title blue (from customization context) */
-  --color-purple: #b16286;      /* Purple tone (inspired by similar schemes, optional) */
-  --color-gray: #2d3436;        /* Charcoal Gray */
+  --color-bg: #001f3f;
+  /* Midnight Blue - main background */
+  --color-bg-soft: #002a5c;
+  /* Slightly lighter background */
+  --color-bg-hard: #000f2f;
+  /* Darker background */
+  --color-fg: #959cbd;
+  /* Foreground base */
+  --color-fg-soft: #7982a9;
+  /* Softer foreground */
+  --color-red: #ff6b6b;
+  /* Neon Pink */
+  --color-red-bright: #ff92a1;
+  /* Sakura Blossom (light pink) */
+  --color-yellow: #f7d794;
+  /* City Lights Yellow */
+  --color-green: #2ecc71;
+  /* Zen Garden Green */
+  --color-blue: #3d59a1;
+  /* Panel title blue (from customization context) */
+  --color-purple: #b16286;
+  /* Purple tone (inspired by similar schemes, optional) */
+  --color-gray: #2d3436;
+  /* Charcoal Gray */
+}
+
+button {
+  background-color: var(--color-bg-soft);
+  /* background */
+  color: var(--color-fg);
+  /* text */
+  border: 2px solid var(--color-blue);
+  /* accent border */
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-weight: bold;
 }
