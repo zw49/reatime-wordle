@@ -49,7 +49,7 @@ function WordleGrid({ wordleArr, answer, currentRow }) {
   }
 
   return (
-    <div className={`grid grid-cols-${wordleArr[0].length} gap-2`}>
+    <div className={`grid grid-cols-5 gap-2`}>
       {
         iterateRowAndReturnSquares()
       }
