@@ -14,6 +14,13 @@ function WordleSquare({ value, variant }) {
       </div>
     )
   }
+  if (variant == "almost") {
+    return (
+      <div className="shadow-2xl grid place-items-center border-2 border-yellow rounded-sm w-20 h-20 font-extrabold text-5xl text-yellow">
+        {value == null ? "" : value}
+      </div>
+    )
+  }
   if (variant == "normal") {
     return (
       <div className="shadow-2xl grid place-items-center border-2 border-bg-soft rounded-sm w-20 h-20 font-extrabold text-5xl">
@@ -28,6 +35,8 @@ function WordleRow({ row, answer, colorize }) {
     return row.map((cellValue, cellIdx) => {
       if (cellValue === answer[cellIdx])
         return <WordleSquare key={cellIdx} value={cellValue} variant={"correct"} />
+      else if (answer.includes(cellValue))
+        return <WordleSquare key={cellIdx} value={cellValue} variant={"almost"} />
       else
         return <WordleSquare key={cellIdx} value={cellValue} variant={"incorrect"} />
     })
