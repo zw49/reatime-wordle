@@ -14,7 +14,7 @@ function detectWin(wordleArr, answer) {
   return false;
 }
 
-function SinglePlayer() {
+function MultiPlayer() {
   const [useWordleArray, setUseWordleArray] = useState([
     [null, null, null, null, null],
     [null, null, null, null, null],
@@ -82,4 +82,4 @@ function SinglePlayer() {
   )
 }
 
-export default SinglePlayer;
+export default MultiPlayer;
