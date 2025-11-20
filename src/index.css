@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@source inline('text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}');
+@source inline('{sm:,md:,lg:,xl:,}w-{1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64}');
+@source inline('{sm:,md:,lg:,xl:,}h-{1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64}');
 
 :root {
   /* Use the imported family and fall back to generic monospace */

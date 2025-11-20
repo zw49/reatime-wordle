@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCheckValidWord, useRandomPuzzle } from "../components/actions";
 import WordleGrid from "../components/WordleGrid";
 import useToast from "../hooks/useToast";
 import { isLetter } from "../utils/utils";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { supabase } from "../utils/supabase";
 
 function detectWin(wordleArr, answer) {
   for (const row of wordleArr) {
@@ -15,6 +17,28 @@ function detectWin(wordleArr, answer) {
 }
 
 function MultiPlayer() {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session")
+  console.log(sessionId)
+  useEffect(() => {
+    if (!sessionId) {
+      navigate("/")
+      return
+    }
+
+    const channel = supabase.channel(`session_${sessionId}`).on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'guesses',
+      },
+      (payload) => console.log(payload)
+    ).subscribe()
+
+
+  }, [sessionId])
   const [useWordleArray, setUseWordleArray] = useState([
     [null, null, null, null, null],
     [null, null, null, null, null],

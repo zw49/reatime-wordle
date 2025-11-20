@@ -3,6 +3,7 @@ import { useCheckValidWord, useRandomPuzzle } from "../components/actions";
 import WordleGrid from "../components/WordleGrid";
 import useToast from "../hooks/useToast";
 import { isLetter } from "../utils/utils";
+import Alphabet from "../components/Alphabet";
 
 function detectWin(wordleArr, answer) {
   for (const row of wordleArr) {
@@ -27,7 +28,7 @@ function SinglePlayer() {
   const [useCurrentRow, setUseCurrentRow] = useState(0);
   const { data: word, error } = useRandomPuzzle()
   console.log(word)
-  const { refetch } = useCheckValidWord(useWordleArray[useCurrentRow].join("").toLowerCase());
+  const { refetch } = useCheckValidWord(useWordleArray[useCurrentRow]?.join("").toLowerCase());
   const { addToast, ToastContainer } = useToast();
   const currentColRef = useRef(0)
 
@@ -75,7 +76,8 @@ function SinglePlayer() {
     }
   }
   return (
-    <div tabIndex={0} onKeyDown={handleKeyDown} className="h-full w-full grid place-items-center">
+    <div tabIndex={0} onKeyDown={handleKeyDown} className="h-full w-full grid grid-cols-3 place-items-center">
+      <Alphabet wordleArr={useWordleArray} answer={word} currentRow={useCurrentRow} />
       <WordleGrid answer={word} wordleArr={useWordleArray} currentRow={useCurrentRow} />
       <ToastContainer />
     </div>

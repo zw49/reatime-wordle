@@ -27,3 +27,12 @@ export const useCheckValidWord = (guess: string) => {
     }
   })
 }
+
+export async function createSession() {
+  const { data, error } = await supabase.from('sessions').insert({}).select();
+  if (error) throw error;
+  const sessionId = data?.[0].id;
+  console.log(data)
+  const link = `${window.location.origin}/multi?session=${sessionId}`;
+  return link;
+}

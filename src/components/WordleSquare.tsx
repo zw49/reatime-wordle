@@ -1,8 +1,10 @@
+import { cn } from "./ui/cn"
 
-function WordleSquare({ value, variant }) {
+function WordleSquare({ value, variant, className = "" }) {
+  const baseStyle = `shadow-2xl grid place-items-center border-2 rounded-sm w-16 h-16 font-extrabold text-5xl ${className}`
   if (variant == "incorrect") {
     return (
-      <div className="shadow-2xl grid place-items-center border-2 border-red rounded-sm w-20 h-20 font-extrabold text-5xl text-red">
+      <div className={cn(`border-red text-red`, baseStyle)}>
         {value == null ? "" : value}
       </div>
     )
@@ -10,21 +12,21 @@ function WordleSquare({ value, variant }) {
 
   if (variant == "correct") {
     return (
-      <div className="shadow-2xl grid place-items-center border-2 border-green rounded-sm w-20 h-20 font-extrabold text-5xl text-green">
+      <div className={cn(`border-green text-green`, baseStyle)}>
         {value == null ? "" : value}
       </div>
     )
   }
   if (variant == "almost") {
     return (
-      <div className="shadow-2xl grid place-items-center border-2 border-yellow rounded-sm w-20 h-20 font-extrabold text-5xl text-yellow">
+      <div className={cn(`border-yellow text-yellow`, baseStyle)}>
         {value == null ? "" : value}
       </div>
     )
   }
   if (variant == "normal") {
     return (
-      <div className="shadow-2xl grid place-items-center border-2 border-bg-soft rounded-sm w-20 h-20 font-extrabold text-5xl">
+      <div className={cn(`border-bg-soft `, baseStyle)}>
         {value == null ? "" : value}
       </div>
     )

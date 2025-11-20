@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="single" element={<SinglePlayer />} />
-            <Route path="multi" element={<MultiPlayer />} />
+            <Route path="multi/*" element={<MultiPlayer />} />
           </Routes>
         </div>
       </ QueryClientProvider>
