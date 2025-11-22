@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useCheckValidWord, useRandomPuzzle } from "../components/actions";
+import { useCheckValidWord, useCreateGuess, useRandomPuzzle, useSpecificPuzzle } from "../components/actions";
 import WordleGrid from "../components/WordleGrid";
 import useToast from "../hooks/useToast";
 import { isLetter } from "../utils/utils";
@@ -17,28 +17,12 @@ function detectWin(wordleArr, answer) {
 }
 
 function MultiPlayer() {
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams();
-  const sessionId = searchParams.get("session")
-  console.log(sessionId)
-  useEffect(() => {
-    if (!sessionId) {
-      navigate("/")
-      return
-    }
+  const puzzleId = searchParams.get("puzzleId")
+  const createGuessMutation = useCreateGuess()
 
-    const channel = supabase.channel(`session_${sessionId}`).on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'guesses',
-      },
-      (payload) => console.log(payload)
-    ).subscribe()
+  const { data: puzzle, error, isLoading } = useSpecificPuzzle(puzzleId)
 
-
-  }, [sessionId])
   const [useWordleArray, setUseWordleArray] = useState([
     [null, null, null, null, null],
     [null, null, null, null, null],
@@ -49,18 +33,25 @@ function MultiPlayer() {
   ])
 
   const [useCurrentRow, setUseCurrentRow] = useState(0);
-  const { data: word, error } = useRandomPuzzle()
-  console.log(word)
   const { refetch } = useCheckValidWord(useWordleArray[useCurrentRow].join("").toLowerCase());
   const { addToast, ToastContainer } = useToast();
   const currentColRef = useRef(0)
 
+  const handleCreateGuess = () => {
+    if (sessionId)
+      createGuessMutation.mutate({
+        guess: "",
+        session_id: sessionId,
+      })
+  }
   const handleSubmit = () => {
     // make sure that current word is valid
     refetch().then((data: any) => {
       if (data.data.length > 0) {
         console.log("VALID")
-        const win = detectWin(useWordleArray, word)
+        handleCreateGuess()
+
+        const win = detectWin(useWordleArray, puzzle.word)
         if (win)
           addToast("🎉 You've Won! 🎉", {})
         setUseCurrentRow((prev) => prev + 1)
@@ -69,7 +60,6 @@ function MultiPlayer() {
       else {
         console.log("NOT VALID")
         addToast("That's not a real word... 😒", { duration: 3000 })
-
       }
     })
   }
@@ -100,9 +90,12 @@ function MultiPlayer() {
   }
   return (
     <div tabIndex={0} onKeyDown={handleKeyDown} className="h-full w-full grid place-items-center">
-      <WordleGrid answer={word} wordleArr={useWordleArray} currentRow={useCurrentRow} />
+      <button onClick={() => handleCreateGuess()}>Hi</button>
+      {!isLoading && (
+        <WordleGrid answer={puzzle[0].word} wordleArr={useWordleArray} currentRow={useCurrentRow} />
+      )}
       <ToastContainer />
-    </div>
+    </div >
   )
 }
 

@@ -1,6 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabase";
 
+export const useSpecificPuzzle = (puzzleId: string) => {
+  return useQuery({
+    queryKey: ["random_puzzle"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("puzzles").select("*").eq("id", puzzleId)
+      if (error) {
+        throw error
+      }
+      return data[0];
+    }
+  })
+}
 export const useRandomPuzzle = () => {
   return useQuery({
     queryKey: ["random_puzzle"],
@@ -9,7 +21,7 @@ export const useRandomPuzzle = () => {
       if (error) {
         throw error
       }
-      return data?.[0].word.toUpperCase();
+      return data?.[0];
     }
   })
 }
@@ -28,6 +40,19 @@ export const useCheckValidWord = (guess: string) => {
   })
 }
 
+export const useCreateGuess = () => {
+  return useMutation(
+    {
+      mutationFn: async (guess: { guess: string, session_id: string }) => {
+        const { data, error } = await supabase.from("guesses").insert(guess).single()
+
+        if (error) throw error
+        return data
+      }
+    }
+  )
+}
+
 export async function createSession() {
   const { data, error } = await supabase.from('sessions').insert({}).select();
   if (error) throw error;
@@ -36,3 +61,4 @@ export async function createSession() {
   const link = `${window.location.origin}/multi?session=${sessionId}`;
   return link;
 }
+

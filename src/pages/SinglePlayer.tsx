@@ -26,8 +26,8 @@ function SinglePlayer() {
   ])
 
   const [useCurrentRow, setUseCurrentRow] = useState(0);
-  const { data: word, error } = useRandomPuzzle()
-  console.log(word)
+  const { data: puzzle, error } = useRandomPuzzle()
+  console.log(puzzle)
   const { refetch } = useCheckValidWord(useWordleArray[useCurrentRow]?.join("").toLowerCase());
   const { addToast, ToastContainer } = useToast();
   const currentColRef = useRef(0)
@@ -37,7 +37,7 @@ function SinglePlayer() {
     refetch().then((data: any) => {
       if (data.data.length > 0) {
         console.log("VALID")
-        const win = detectWin(useWordleArray, word)
+        const win = detectWin(useWordleArray, puzzle.word)
         if (win)
           addToast("🎉 You've Won! 🎉", {})
         setUseCurrentRow((prev) => prev + 1)
@@ -77,8 +77,8 @@ function SinglePlayer() {
   }
   return (
     <div tabIndex={0} onKeyDown={handleKeyDown} className="h-full w-full grid grid-cols-3 place-items-center">
-      <Alphabet wordleArr={useWordleArray} answer={word} currentRow={useCurrentRow} />
-      <WordleGrid answer={word} wordleArr={useWordleArray} currentRow={useCurrentRow} />
+      <Alphabet wordleArr={useWordleArray} answer={puzzle.word} currentRow={useCurrentRow} />
+      <WordleGrid answer={puzzle.word} wordleArr={useWordleArray} currentRow={useCurrentRow} />
       <ToastContainer />
     </div>
   )
